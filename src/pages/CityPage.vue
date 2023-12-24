@@ -8,7 +8,7 @@
         @filter-fn="fetchCity"
         @clear="
           () => {
-            modelCity = '';
+            modelCity = null;
           }
         "
       />
@@ -19,13 +19,19 @@
   </q-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
 import { axios } from "boot/axios";
+
 import SelectBaseCity from "src/components/SelectBase.vue";
 
-const modelCity = ref("");
-const optionCity = ref([]);
+interface City {
+  id: string;
+  name: string;
+}
+
+const modelCity = ref<City | null>(null);
+const optionCity = ref<City[]>([]);
 
 const fetchCity = () => {
   axios

@@ -17,14 +17,14 @@
   </q-card-section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { defineProps, defineEmits, ref, watch } from "vue";
 
 const props = defineProps({
   title: String,
   optionValue: {
-    type: Array,
-    default: [],
+    type: Array as () => any[],
+    default: () => [],
   },
   disable: Boolean,
   modelValue: {

@@ -8,20 +8,20 @@
         @filter-fn="fetchProvinces"
         @clear="
           () => {
-            modelProv = '';
+            modelProv = null;
           }
         "
       />
 
       <SelectBaseCity
         v-model="modelCity"
-        :disable="Object.keys(modelProv).length == 0"
+        :disable="!modelProv"
         :optionValue="optionCity"
         title="Kota"
         @filter-fn="fetchCity"
         @clear="
           () => {
-            modelCity = '';
+            modelCity = null;
           }
         "
       />
@@ -33,18 +33,29 @@
   </q-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
 import { api } from "boot/axios";
 
 import SelectBaseProv from "src/components/SelectBase.vue";
 import SelectBaseCity from "src/components/SelectBase.vue";
 
-const modelProv = ref("");
-const modelCity = ref("");
+interface Province {
+  id: string;
+  name: string;
+}
 
-const optionProv = ref([]);
-const optionCity = ref([]);
+interface City {
+  id: string;
+  province_id: string;
+  name: string;
+}
+
+const modelProv = ref<Province | null>(null);
+const modelCity = ref<City | null>(null);
+
+const optionProv = ref<Province[]>([]);
+const optionCity = ref<City[]>([]);
 
 const fetchProvinces = () => {
   api
